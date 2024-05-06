@@ -37,6 +37,8 @@ async function initialize() {
     const defineSpecializationModel = require('../model/specialization.model');
     const definePositionModel = require('../model/position.model');
     const defineServiceModel = require('../model/service.model');
+    const defineAccountModel = require('../model/account.model');
+
 
 
     // Assign models to the db object
@@ -47,6 +49,7 @@ async function initialize() {
     db.Specialization = defineSpecializationModel(sequelize);
     db.Position = definePositionModel(sequelize);
     db.Service = defineServiceModel(sequelize);
+    db.Account = defineAccountModel(sequelize);
 
     // sync all models with database
     await sequelize.sync({ alter: true });

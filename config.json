@@ -5,5 +5,6 @@
         "user": "root",
         "password": "kocopass",
         "database": "qldoctor"
-    }
+    },
+    "secret": "IT CAN BE ANY STRING"
 }
