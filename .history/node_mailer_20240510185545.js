@@ -25,3 +25,5 @@ function sendEmail() {
         }
     });
 }
+
+exports sendEmail

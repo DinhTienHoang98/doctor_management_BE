@@ -4,7 +4,7 @@ const csv = require('csv-parser');
 const db = require('../_helpers/db'); // Đảm bảo db này bao gồm các model đã định nghĩa
 
 // Lên lịch cho các nhiệm vụ được thực thi trên máy chủ.
-cron.schedule('* * * * * *', function () {
+cron.schedule('*/5 * * * * *', function () {
     console.log('running a task every 5 seconds');
     readFile();
 });
@@ -55,7 +55,7 @@ function readFile() {
                     description: row.specialist
                 });
 
-                console.log(`Dữ liệu từ hàng ${row.fullname} đã được thêm vào cơ sở dữ liệu.`);
+                console.log(`Dữ liệu từ hàng ${fullname} đã được thêm vào cơ sở dữ liệu.`);
             } catch (error) {
                 console.error('Lỗi khi thêm dữ liệu vào cơ sở dữ liệu:', error);
             }

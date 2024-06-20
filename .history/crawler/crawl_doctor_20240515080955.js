@@ -16,7 +16,7 @@ const { stringify } = require("csv-stringify");
         const itemList = [];
 
         itemNodes.forEach((node) => {
-            const fullname = node
+            const name = node
                 .querySelector("div.body > div.info > h2 > a")
                 .innerText.trim();
 

@@ -4,14 +4,14 @@ const csv = require('csv-parser');
 const db = require('../_helpers/db'); // Đảm bảo db này bao gồm các model đã định nghĩa
 
 // Lên lịch cho các nhiệm vụ được thực thi trên máy chủ.
-cron.schedule('* * * * * *', function () {
+cron.schedule('*/5 * * * * *', function () {
     console.log('running a task every 5 seconds');
     readFile();
 });
 
 async function generateSpecializationCode() {
     const lastSpecialization = await db.Specialization.findOne({
-        order: [['code', 'DESC']]
+        order: [['code', 'ASC']]
     });
 
     let newCode = 'CK01';
@@ -20,6 +20,13 @@ async function generateSpecializationCode() {
         const numericPart = parseInt(lastCode.slice(2)) + 1;
         newCode = 'CK' + String(numericPart).padStart(2, '0');
     }
+
+    // Thêm dữ liệu vào cơ sở dữ liệu
+    // await db.Specialization.create({
+    //     code: newCode,
+    // Thêm các trường dữ liệu khác tại đây
+    // });
+
     return newCode;
 }
 
@@ -36,12 +43,16 @@ function readFile() {
                     workplace: row.position,
                     introduce: row.introduce
                 });
+                // Lấy dữ liệu cần thêm từ mỗi hàng của CSV
+                const fullname = row.name;
+                const workplace = row.position;
+                const introduce = row.introduce;
 
                 // Thực hiện cập nhật trong cơ sở dữ liệu
                 await db.Doctor.create({
-                    fullname: row.fullname,  // Đảm bảo tên cột khớp với model
-                    workplace: row.position,
-                    introduce: row.introduce
+                    fullname: fullname,  // Đảm bảo tên cột khớp với model
+                    workplace: workplace,
+                    introduce: introduce
                 });
 
                 await db.Position.create({
@@ -55,7 +66,7 @@ function readFile() {
                     description: row.specialist
                 });
 
-                console.log(`Dữ liệu từ hàng ${row.fullname} đã được thêm vào cơ sở dữ liệu.`);
+                console.log(`Dữ liệu từ hàng ${fullname} đã được thêm vào cơ sở dữ liệu.`);
             } catch (error) {
                 console.error('Lỗi khi thêm dữ liệu vào cơ sở dữ liệu:', error);
             }

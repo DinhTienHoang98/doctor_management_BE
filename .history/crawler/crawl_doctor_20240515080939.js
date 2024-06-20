@@ -16,7 +16,7 @@ const { stringify } = require("csv-stringify");
         const itemList = [];
 
         itemNodes.forEach((node) => {
-            const fullname = node
+            const name = node
                 .querySelector("div.body > div.info > h2 > a")
                 .innerText.trim();
 
@@ -46,7 +46,7 @@ const { stringify } = require("csv-stringify");
 
     const filename = "saved_from_db.csv"
     const writetabStream = fs.createWriteStream(filename);
-    const columns = ["fullname", "degree", "specialist", "position", "introduce"];
+    const columns = ["name", "degree", "specialist", "position", "introduce"];
 
     const stringifier = stringify({ header: true, columns: columns, delimiter: "|" });
     stringifier.pipe(writetabStream);
